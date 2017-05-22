@@ -1088,7 +1088,7 @@ int sem_timedwait(sem_t *sem, const struct timespec *abs_timeout)
   {
     struct timespec tdiff, timeadj;
 
-    timespecsub(abs_timeout, &ftpl_starttime.real, &tdiff);
+    timespecsub(abs_timeout, &user_faked_time_timespec, &tdiff);
 
     if (user_rate_set)
     {
@@ -1098,7 +1098,7 @@ int sem_timedwait(sem_t *sem, const struct timespec *abs_timeout)
     {
         timeadj = tdiff;
     }
-    timespecadd(&user_faked_time_timespec, &timeadj, &real_abs_timeout);
+    timespecadd(&ftpl_starttime.real, &timeadj, &real_abs_timeout);
     real_abs_timeout_pt = &real_abs_timeout;
   }
   else
